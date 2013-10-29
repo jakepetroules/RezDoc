@@ -1,0 +1,315 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1493DB3A18206D0E006A251A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493DB3918206D0E006A251A /* main.m */; };
+		1493DB3E18206D0E006A251A /* RezDoc.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1493DB3D18206D0E006A251A /* RezDoc.1 */; };
+		1493DB4C18206DC8006A251A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1493DB4B18206DC8006A251A /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1493DB6718207423006A251A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1493DB2B18206D0D006A251A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1493DB3218206D0E006A251A;
+			remoteInfo = RezDoc;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1493DB3118206D0E006A251A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				1493DB3E18206D0E006A251A /* RezDoc.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1493DB3318206D0E006A251A /* RezDoc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = RezDoc; sourceTree = BUILT_PRODUCTS_DIR; };
+		1493DB3918206D0E006A251A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1493DB3D18206D0E006A251A /* RezDoc.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = RezDoc.1; sourceTree = "<group>"; };
+		1493DB4518206D77006A251A /* test.doc */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.doc; sourceTree = "<group>"; };
+		1493DB4618206D78006A251A /* test.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.docx; sourceTree = "<group>"; };
+		1493DB4718206D78006A251A /* test.odt */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.odt; sourceTree = "<group>"; };
+		1493DB4818206D78006A251A /* test.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = test.rtf; sourceTree = "<group>"; };
+		1493DB4918206D78006A251A /* test.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
+		1493DB4A18206D78006A251A /* test.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = test.xml; sourceTree = "<group>"; };
+		1493DB4B18206DC8006A251A /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1493DB6218207116006A251A /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1493DB3018206D0E006A251A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1493DB4C18206DC8006A251A /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1493DB2A18206D0D006A251A = {
+			isa = PBXGroup;
+			children = (
+				1493DB6218207116006A251A /* Makefile */,
+				1493DB3818206D0E006A251A /* RezDoc */,
+				1493DB4418206D77006A251A /* Tests */,
+				1493DB3518206D0E006A251A /* Frameworks */,
+				1493DB3418206D0E006A251A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1493DB3418206D0E006A251A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1493DB3318206D0E006A251A /* RezDoc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1493DB3518206D0E006A251A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1493DB4B18206DC8006A251A /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1493DB3818206D0E006A251A /* RezDoc */ = {
+			isa = PBXGroup;
+			children = (
+				1493DB3918206D0E006A251A /* main.m */,
+				1493DB3D18206D0E006A251A /* RezDoc.1 */,
+			);
+			path = RezDoc;
+			sourceTree = "<group>";
+		};
+		1493DB4418206D77006A251A /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				1493DB4518206D77006A251A /* test.doc */,
+				1493DB4618206D78006A251A /* test.docx */,
+				1493DB4718206D78006A251A /* test.odt */,
+				1493DB4818206D78006A251A /* test.rtf */,
+				1493DB4918206D78006A251A /* test.txt */,
+				1493DB4A18206D78006A251A /* test.xml */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		1493DB6318207413006A251A /* RezDoc Tests */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "check clean";
+			buildConfigurationList = 1493DB6418207413006A251A /* Build configuration list for PBXLegacyTarget "RezDoc Tests" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			buildWorkingDirectory = "$(SRCROOT)";
+			dependencies = (
+				1493DB6818207423006A251A /* PBXTargetDependency */,
+			);
+			name = "RezDoc Tests";
+			passBuildSettingsInEnvironment = 1;
+			productName = "RezDoc Tests";
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		1493DB3218206D0E006A251A /* RezDoc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1493DB4118206D0E006A251A /* Build configuration list for PBXNativeTarget "RezDoc" */;
+			buildPhases = (
+				1493DB2F18206D0E006A251A /* Sources */,
+				1493DB3018206D0E006A251A /* Frameworks */,
+				1493DB3118206D0E006A251A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RezDoc;
+			productName = RezDoc;
+			productReference = 1493DB3318206D0E006A251A /* RezDoc */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1493DB2B18206D0D006A251A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Petroules Corporation";
+			};
+			buildConfigurationList = 1493DB2E18206D0D006A251A /* Build configuration list for PBXProject "RezDoc" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1493DB2A18206D0D006A251A;
+			productRefGroup = 1493DB3418206D0E006A251A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1493DB3218206D0E006A251A /* RezDoc */,
+				1493DB6318207413006A251A /* RezDoc Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1493DB2F18206D0E006A251A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1493DB3A18206D0E006A251A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1493DB6818207423006A251A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1493DB3218206D0E006A251A /* RezDoc */;
+			targetProxy = 1493DB6718207423006A251A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1493DB3F18206D0E006A251A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		1493DB4018206D0E006A251A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+			};
+			name = Release;
+		};
+		1493DB4218206D0E006A251A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1493DB4318206D0E006A251A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1493DB6518207413006A251A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		1493DB6618207413006A251A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1493DB2E18206D0D006A251A /* Build configuration list for PBXProject "RezDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1493DB3F18206D0E006A251A /* Debug */,
+				1493DB4018206D0E006A251A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1493DB4118206D0E006A251A /* Build configuration list for PBXNativeTarget "RezDoc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1493DB4218206D0E006A251A /* Debug */,
+				1493DB4318206D0E006A251A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1493DB6418207413006A251A /* Build configuration list for PBXLegacyTarget "RezDoc Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1493DB6518207413006A251A /* Debug */,
+				1493DB6618207413006A251A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1493DB2B18206D0D006A251A /* Project object */;
+}

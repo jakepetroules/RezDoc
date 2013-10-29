@@ -1,0 +1,56 @@
+.\"Modified from man(1) of FreeBSD, the NetBSD mdoc.template, and mdoc.samples.
+.\"See Also:
+.\"man mdoc.samples for a complete listing of options
+.\"man mdoc for the short list of editing options
+.\"/usr/share/misc/mdoc.template
+.Dd 10/29/13               \" DATE 
+.Dt RezDoc 1      \" Program name and manual section number 
+.Os Darwin
+.Sh NAME                 \" Section Header - required - don't modify 
+.Nm RezDoc
+.Nd Convert plain and rich text files to Carbon resource files.
+.Sh SYNOPSIS             \" Section Header - required - don't modify
+.Nm
+.Op Ar inputfile         \" [inputfile]
+.Op Ar rezfile           \" [rezfile]
+.Op Ar rezid             \" [rezid]
+.Sh DESCRIPTION          \" Section Header - required - don't modify
+.Nm
+converts a variety of text file formats to Carbon resource files. Supported input formats include
+all those supported by the Cocoa text system, including but not limited to rich text files,
+Word Documents, OpenDocument text, and plain text files. The produced resource file is usable by
+Rez to embed into a disk image in order to display a license agreement, as well as for other
+purposes.
+.Sh ARGUMENTS
+.Bl -tag -width -indent  \" Begins a tagged list 
+.It inputfile            \" Each item preceded by .It macro
+Path to the input file (.doc, .docx, .odt, .rtf, .txt, .xml)
+.It rezfile
+Path to the output file (.r)
+.It rezid
+The resource ID of the generated TEXT and styl sections
+.El                      \" Ends the list
+.Pp
+.\" .Sh ENVIRONMENT      \" May not be needed
+.\" .Bl -tag -width "ENV_VAR_1" -indent \" ENV_VAR_1 is width of the string ENV_VAR_1
+.\" .It Ev ENV_VAR_1
+.\" Description of ENV_VAR_1
+.\" .It Ev ENV_VAR_2
+.\" Description of ENV_VAR_2
+.\" .El                      
+.Sh FILES                \" File used or created by the topic of the man page
+.Bl -tag -width "/Users/joeuser/Library/really_long_file_name" -compact
+.It Pa /usr/bin/RezDoc
+The
+.Nm
+executable
+.El                      \" Ends the list
+.\" .Sh DIAGNOSTICS       \" May not be needed
+.\" .Bl -diag
+.\" .It Diagnostic Tag
+.\" Diagnostic informtion here.
+.\" .It Diagnostic Tag
+.\" Diagnostic informtion here.
+.\" .El
+.\" .Sh BUGS              \" Document known, unremedied bugs 
+.\" .Sh HISTORY           \" Document history if command behaves in a unique manner
