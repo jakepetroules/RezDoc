@@ -116,7 +116,7 @@ int main(int argc, const char *argv[])
                 [hex appendString:@"            /* "];
 
                 for (NSUInteger j = i - (i % 16); j <= i; ++j) {
-                    if (isprint(bytes[j])) {
+                    if (isprint(bytes[j]) || bytes[j] > 127) {
                         [hex appendFormat:@"%c", bytes[j]];
                     } else {
                         [hex appendString:@"."];
