@@ -28,6 +28,12 @@
 NSString* const kCorePasteboardFlavorType_TEXT = @"CorePasteboardFlavorType 0x54455854";
 NSString* const kCorePasteboardFlavorType_styl = @"CorePasteboardFlavorType 0x7374796C";
 
+#ifdef __BIG_ENDIAN__
+#define NATIVE_ENDIAN true
+#else
+#define NATIVE_ENDIAN false
+#endif
+
 @interface NSData (RezDoc)
 
 - (NSString *)rezStringWithBlockCode:(NSString *)blockCode andResourceID:(NSUInteger)resID comments:(BOOL)comments;
@@ -64,6 +70,16 @@ int main(int argc, const char *argv[])
     // Now get it back out as TEXT and styl resources
     NSData *text = [pasteboard dataForType:kCorePasteboardFlavorType_TEXT];
     NSData *styl = [pasteboard dataForType:kCorePasteboardFlavorType_styl];
+
+    // styl data needs to be in big endian; so flip it if necessary
+    char *stylBytes = (char*)malloc([styl length]);
+    [styl getBytes:stylBytes length:[styl length]];
+    if (CoreEndianFlipData(kCoreEndianResourceManagerDomain, 'styl', 0, stylBytes, [styl length], NATIVE_ENDIAN) != 0) {
+        free(stylBytes);
+        fprintf(stderr, "Error flipping styl resource endianness");
+        return -1;
+    }
+    styl = [NSData dataWithBytesNoCopy:stylBytes length:[styl length] freeWhenDone:YES];
 
     // Now write a Rez file with these
     NSMutableString *str = [NSMutableString string];
