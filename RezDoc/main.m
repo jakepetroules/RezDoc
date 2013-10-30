@@ -49,7 +49,7 @@ int main(int argc, const char *argv[])
                                [NSString stringWithUTF8String:argv[1]] documentAttributes:nil];
     if (!rtf) {
         [pool release];
-        printf("Error reading file: %s\n", argv[1]);
+        fprintf(stderr, "Error reading file: %s\n", argv[1]);
         return -1;
     }
 
@@ -77,7 +77,7 @@ int main(int argc, const char *argv[])
     [pool release];
 
     if (!written) {
-        printf("Error writing file: %s\n", argv[2]);
+        fprintf(stderr, "Error writing file: %s\n", argv[2]);
         return -1;
     }
 
