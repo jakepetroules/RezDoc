@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Filename</key>
+		<string>eula.txt</string>
+		<key>Locale</key>
+		<string>en</string>
+	</dict>
+	<dict>
+		<key>Filename</key>
+		<string>eula-de.txt</string>
+		<key>Locale</key>
+		<string>de</string>
+	</dict>
+	<dict>
+		<key>Filename</key>
+		<string>eula-fr.txt</string>
+		<key>Locale</key>
+		<string>fr</string>
+	</dict>
+	<dict>
+		<key>Filename</key>
+		<string>eula-ja.txt</string>
+		<key>Locale</key>
+		<string>ja</string>
+	</dict>
+	<dict>
+		<key>Filename</key>
+		<string>eula-ko.rtf</string>
+		<key>Locale</key>
+		<string>ko</string>
+	</dict>
+	<dict>
+		<key>Filename</key>
+		<string>eula-zh_CN.odt</string>
+		<key>Locale</key>
+		<string>zh_CN</string>
+	</dict>
+	<dict>
+		<key>Filename</key>
+		<string>eula-zh_TW.docx</string>
+		<key>Locale</key>
+		<string>zh_TW</string>
+	</dict>
+</array>
+</plist>
