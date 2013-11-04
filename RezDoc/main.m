@@ -26,6 +26,27 @@
 #import <Carbon/Carbon.h>
 #import <Cocoa/Cocoa.h>
 
+@interface CarbonResource : NSObject
+{
+    RegionCode _regionCode;
+    ResType _typeCode;
+    NSData *_data;
+}
+
+@property (nonatomic, assign) RegionCode regionCode;
+@property (nonatomic, assign) ResType typeCode;
+@property (nonatomic, readonly) NSString *typeString;
+@property (nonatomic, readonly) NSString *pasteboardTypeString;
+@property (nonatomic, copy) NSData *data;
+@property (nonatomic, readonly) NSString *rezString;
+
+- (id)initWithData:(NSData *)data typeCode:(ResType)typeCode regionCode:(RegionCode)regionCode;
+- (id)initWithPasteboardContents:(NSPasteboard *)pasteboard typeCode:(ResType)typeCode
+                      regionCode:(RegionCode)regionCode;
+- (BOOL)flipEndiannessIfNecessary;
+
+@end
+
 typedef struct LPic {
     UInt16 defaultLanguage;
     UInt16 count;
@@ -36,20 +57,11 @@ typedef struct LPic {
     } item[1024];
 } LPic;
 
-NSString* const kCorePasteboardFlavorType_TEXT = @"CorePasteboardFlavorType 0x54455854";
-NSString* const kCorePasteboardFlavorType_styl = @"CorePasteboardFlavorType 0x7374796C";
-
 #ifdef __BIG_ENDIAN__
 #define NATIVE_ENDIAN true
 #else
 #define NATIVE_ENDIAN false
 #endif
-
-@interface NSData (RezDoc)
-
-- (NSString *)rezStringWithBlockCode:(NSString *)blockCode locale:(RegionCode)regionCode;
-
-@end
 
 int main(int argc, char *argv[])
 {
@@ -207,49 +219,54 @@ int main(int argc, char *argv[])
             [pasteboard declareTypes:[NSArray arrayWithObject:NSRTFPboardType] owner:nil];
             [pasteboard setData:rawDocumentData forType:NSRTFPboardType];
 
-            // Now get it back out as TEXT and styl resources
-            NSData *text = [pasteboard dataForType:kCorePasteboardFlavorType_TEXT];
-            NSData *styl = [pasteboard dataForType:kCorePasteboardFlavorType_styl];
-            if (!text || !styl)
-            {
-                fprintf(stderr, "%s: error: could not read TEXT/styl resources from pasteboard\n",
+            // Now get it back out as TEXT/utxt and styl/ustl resources
+            CarbonResource *textResource = [[CarbonResource alloc] initWithPasteboardContents:pasteboard typeCode:'TEXT' regionCode:regionCode];
+            CarbonResource *utxtResource = [[CarbonResource alloc] initWithPasteboardContents:pasteboard typeCode:'utxt' regionCode:regionCode];
+            if (!textResource || !utxtResource) {
+                fprintf(stderr, "%s: error: could not read TEXT/utxt resource from pasteboard\n",
                         [[[NSProcessInfo processInfo] processName] UTF8String]);
-                return -1;
+                return EXIT_FAILURE;
+            }
+
+            CarbonResource *stylResource = [[CarbonResource alloc] initWithPasteboardContents:pasteboard typeCode:'styl' regionCode:regionCode];
+            CarbonResource *ustlResource = [[CarbonResource alloc] initWithPasteboardContents:pasteboard typeCode:'ustl' regionCode:regionCode];
+            if (!stylResource || !ustlResource) {
+                fprintf(stderr, "%s: error: could not read styl/ustl resource from pasteboard\n",
+                        [[[NSProcessInfo processInfo] processName] UTF8String]);
+                return EXIT_FAILURE;
             }
 
             // The TEXT resource is in the wrong encoding for these... get the right one
             // Unfortunately we must also forego the style
-            if (encoding == kCFStringEncodingMacChineseTrad || encoding == kCFStringEncodingMacJapanese)
+            if (textResource &&
+                (encoding == kCFStringEncodingMacChineseTrad ||
+                encoding == kCFStringEncodingMacJapanese))
             {
                 NSMutableString *str = [NSMutableString stringWithString:[textDocument string]];
                 [str replaceOccurrencesOfString:@"\n" withString:@"\r" options:NSLiteralSearch range:NSMakeRange(0, [str length])];
-                text = [str dataUsingEncoding:CFStringConvertEncodingToNSStringEncoding(encoding)];
-                styl = nil;
+                textResource.data = [str dataUsingEncoding:CFStringConvertEncodingToNSStringEncoding(encoding)];
+                stylResource = nil;
             }
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
             [textDocument release];
 #endif
 
-            // styl data needs to be in big endian; so flip it if necessary
-            if (styl) {
-                char *stylBytes = (char*)malloc([styl length]);
-                [styl getBytes:stylBytes length:[styl length]];
-                if (CoreEndianFlipData(kCoreEndianResourceManagerDomain, 'styl', 0, stylBytes,
-                                       [styl length], NATIVE_ENDIAN) != 0) {
-                    free(stylBytes);
-                    fprintf(stderr, "%s: error: could not flip styl resource endianness",
-                            [[[NSProcessInfo processInfo] processName] UTF8String]);
-                    return EXIT_FAILURE;
-                }
-                styl = [NSData dataWithBytesNoCopy:stylBytes length:[styl length] freeWhenDone:YES];
+            // style data needs to be in big endian; so flip it if necessary
+            if (![stylResource flipEndiannessIfNecessary] /*|| ![ustlResource flipEndiannessIfNecessary]*/)
+            {
+                fprintf(stderr, "%s: error: could not flip styl/ustl resource endianness",
+                        [[[NSProcessInfo processInfo] processName] UTF8String]);
+                return EXIT_FAILURE;
             }
 
             // Turn the TEXT and styl data into strings formatted for a Carbon resource file
-            [outputBuffer appendString:[text rezStringWithBlockCode:@"TEXT" locale:regionCode]];
+            [outputBuffer appendString:[textResource rezString]];
 
-            if (styl)
-                [outputBuffer appendString:[styl rezStringWithBlockCode:@"styl" locale:regionCode]];
+            if (ustlResource)
+                [outputBuffer appendString:[ustlResource rezString]];
+            if (stylResource)
+                [outputBuffer appendString:[stylResource rezString]];
 
             // The first localization will be the default one
             if (lpicIndex == 0) {
@@ -274,7 +291,11 @@ int main(int argc, char *argv[])
 
         // Turn the LPic data into a string formatted for a Carbon resource file
         if (generateLpicResource) {
-            [outputBuffer insertString:[lpicData rezStringWithBlockCode:@"LPic" locale:0] atIndex:0];
+            CarbonResource *lpicResource = [[CarbonResource alloc] initWithData:lpicData typeCode:'LPic' regionCode:0];
+            [outputBuffer insertString:[lpicResource rezString] atIndex:0];
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+            [lpicResource release];
+#endif
         }
 
         if (outputFileName) {
@@ -308,15 +329,75 @@ unsigned char b0byte(const unsigned char *bytes, NSUInteger index, NSString *blo
     return bytes[index];
 }
 
-@implementation NSData (RezDoc)
+@implementation CarbonResource
 
-- (NSString *)rezStringWithBlockCode:(NSString *)blockCode locale:(RegionCode)regionCode
+@synthesize regionCode = _regionCode;
+@synthesize typeCode = _typeCode;
+@synthesize data = _data;
+
+- (id)initWithData:(NSData *)data typeCode:(ResType)typeCode regionCode:(RegionCode)regionCode
 {
-    NSMutableString *hex = [NSMutableString stringWithCapacity:[self length] * 2];
-    [hex appendFormat:@"data '%@' (%d) {\n", blockCode, 5000 + regionCode];
+    if ((self = [self init]))
+    {
+        self.typeCode = typeCode;
+        self.regionCode = regionCode;
+        self.data = data;
+    }
 
-    const unsigned char *bytes = (const unsigned char*)[self bytes];
-    const NSUInteger length = [self length];
+    return self;
+}
+
+- (id)initWithPasteboardContents:(NSPasteboard *)pasteboard typeCode:(ResType)typeCode
+                      regionCode:(RegionCode)regionCode
+{
+    if ((self = [self init]))
+    {
+        self.typeCode = typeCode;
+        self.regionCode = regionCode;
+        self.data = [pasteboard dataForType:self.pasteboardTypeString];
+    }
+
+    return self;
+}
+
+- (NSString *)typeString
+{
+    return [NSFileTypeForHFSTypeCode(self.typeCode) stringByReplacingOccurrencesOfString:@"'" withString:@""];
+}
+
+- (NSString *)pasteboardTypeString
+{
+    const char *ts = self.typeString.UTF8String;
+    return [NSString stringWithFormat:@"CorePasteboardFlavorType 0x%02X%02X%02X%02X",
+            ts[0], ts[1], ts[2], ts[3]];
+}
+
+- (BOOL)flipEndiannessIfNecessary
+{
+    if (self.data) {
+        char *theBytes = (char*)malloc([self.data length]);
+        [self.data getBytes:theBytes length:[self.data length]];
+        OSStatus status;
+        if ((status = CoreEndianFlipData(kCoreEndianResourceManagerDomain, self.typeCode, 0,
+                                        theBytes, [self.data length], NATIVE_ENDIAN)) != 0) {
+            fprintf(stderr, "CoreEndianFlipData returned %d for '%s'\n", (int)status,
+                    self.typeString.UTF8String);
+            free(theBytes);
+            return NO;
+        }
+        self.data = [NSData dataWithBytesNoCopy:theBytes length:[self.data length] freeWhenDone:YES];
+    }
+
+    return YES;
+}
+
+- (NSString *)rezString
+{
+    NSMutableString *hex = [NSMutableString stringWithCapacity:[self.data length] * 2];
+    [hex appendFormat:@"data '%@' (%d) {\n", self.typeString, 5000 + self.regionCode];
+
+    const unsigned char *bytes = (const unsigned char*)[self.data bytes];
+    const NSUInteger length = [self.data length];
     for (NSUInteger i = 0; i < length; ++i) {
         // Lines start with this
         if (i % 16 == 0)
@@ -326,7 +407,7 @@ unsigned char b0byte(const unsigned char *bytes, NSUInteger index, NSString *blo
         if (i % 2 == 0 && i % 16 != 0)
             [hex appendString:@" "];
 
-        [hex appendFormat:@"%02X", b0byte(bytes, i, blockCode)];
+        [hex appendFormat:@"%02X", b0byte(bytes, i, self.typeString)];
 
         // Lines end with this
         if ((i + 1) % 16 == 0 || i == length - 1) {
@@ -343,7 +424,7 @@ unsigned char b0byte(const unsigned char *bytes, NSUInteger index, NSString *blo
             [hex appendString:@"            /* "];
 
             for (NSUInteger j = i - (i % 16); j <= i; ++j) {
-                unsigned char byte = b0byte(bytes, j, blockCode);
+                unsigned char byte = b0byte(bytes, j, self.typeString);
                 if (isprint(byte) || byte > 127) {
                     [hex appendFormat:@"%c", byte];
                 } else {
